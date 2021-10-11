@@ -107,6 +107,7 @@ div#abouttxt{
 }
 /* HOME PG - end */
 
+/* Products Page - start */
 hr{
     width:30%
 }
@@ -138,10 +139,8 @@ button{
 
 .detaillink{
     position:relative;
-
     width: 200px;
     height: 144px;
-
     text-align: center;
     display:inline-block;
 }
@@ -167,7 +166,9 @@ button{
 .buttonoverlap:hover{
     background-color:rgba(128, 92, 0, 0.6);
 }
+/* Products Page - end */
 
+/* Product Detail Page - start */
 #left{
     display: inline-block;
     text-align: left;
@@ -227,3 +228,11 @@ p#detail{
     border:0px;
     background-color:rgba(128, 92, 0, 0.6);
 }
+
+.glazetype:hover,
+.qt:hover{
+    color:white;
+    background-color:#805C00;
+}
+
+/* Product Detail Page - end */
