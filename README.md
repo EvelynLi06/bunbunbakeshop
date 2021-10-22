@@ -1,4 +1,4 @@
-# PUI_hw
+# Programming User Interface
 
 This repository is used for Programming User Interface class F21.
 
