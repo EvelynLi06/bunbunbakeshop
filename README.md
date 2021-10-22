@@ -1,4 +1,3 @@
-# PUI_hw5
+# PUI_hw
 
-This is a class assignment for Programming User Interface. A home page, products page, and product detail page are implemented using vanilla HTML and CSS.
- 
+This repository is used for Programming User Interface class F21.
