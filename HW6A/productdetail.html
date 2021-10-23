@@ -18,7 +18,6 @@
                 <div id="nav">
                     <a class="pagetitle" href="index.html">Home</a>  
                     <a class="pagetitle"  href="products.html" >Products</a>  
-                    <a class="pagetitle" >Order</a>  
                     <a class="pagetitle" >Contact Us</a>
                 </div>
 
@@ -26,6 +25,8 @@
                     <a class="shopping_cart" href="cart.html">
                         <img src="shopping_cart.svg">
                     </a>
+                    <div id="cartItem"></div>
+                    <script>loadCartHeader()</script>
                 </div>
             </div>
         </div>
@@ -39,23 +40,25 @@
 
             <div id="right">
                 <div id="description">
-                    <h2>Original Flavor Cinnamon Bun</h2>
+                    <h2 id="product_name">Original Flavor Cinnamon Bun</h2>
                     <p id="detail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                         Sed mi ligula, imperdiet ac lobortis a, condimentum eget
                          arcu. Nam vitae dapibus magna, eu convallis elit. </p>
                 </div>
-                <div id="price">
-                    <h2>$3.75</h2>
+                <div id="price_div">
+                    <h2 id="price">$ 2.75</h2>
+                    <input type="hidden" id="saved" name="saved" value="0"/>
+                    <input type="hidden" id="priceh" name="price" value="0"/>
                 </div>
-                <div id="glaze">
+                <div id="glaze_section">
                     <span>Your choice of glazing:  </span> 
                     <span class="req">required *</span>
                     <br>
                     <div class="buttons">
-                        <button class="glazetype">None</button>
-                        <button class="glazetype">Sugar Milk</button>
-                        <button class="glazetype">Vanilla Milk</button>
-                        <button class="glazetype">Double Chocolate</button>
+                        <button class="glaze" id="glaze0" value="None" onclick="buttonChosen(0, 'glaze')">None</button>
+                        <button class="glaze" id="glaze1" value="Sugar Milk" onclick="buttonChosen(1, 'glaze')">Sugar Milk</button>
+                        <button class="glaze" id="glaze2" value="Vanilla Milk" onclick="buttonChosen(2, 'glaze')">Vanilla Milk</button>
+                        <button class="glaze" id="glaze3" value="Double Chocolate" onclick="buttonChosen(3, 'glaze')">Double Chocolate</button>
                     </div>
                 </div>
                 <div id="quantity">
@@ -63,14 +66,14 @@
                     <span class="req">required *</span>
                     <br>
                     <div class="buttons">
-                        <button class="qt">1</button>
-                        <button class="qt">3</button>
-                        <button class="qt">6</button>
-                        <button class="qt">12</button>
+                        <button class="qt" id="qt1" value="1" onclick="buttonChosen(1, 'qt')">1</button>
+                        <button class="qt" id="qt3" value="3" onclick="buttonChosen(3, 'qt')">3</button>
+                        <button class="qt" id="qt6" value="6" onclick="buttonChosen(6, 'qt')">6</button>
+                        <button class="qt" id="qt12" value="12" onclick="buttonChosen(12, 'qt')">12</button>
                     </div>
                 </div>
                 <br>
-                <button id="tocart">Add to Cart</button>
+                <button id="tocart" onclick="addToCart()">Add to Cart</button>
             </div>
 
         </div>
