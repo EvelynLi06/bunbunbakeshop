@@ -147,7 +147,9 @@ function addToCart(){
                 "qt": qt.innerText, "price": price.value,
                 "save": save.value};
 
-    sessionStorage.setItem(product, JSON.stringify(item));
+    let key = sessionStorage.length;
+    key ++;
+    sessionStorage.setItem(key, JSON.stringify(item));
 
     glaze.className = "glaze";
     qt.className = "qt";
