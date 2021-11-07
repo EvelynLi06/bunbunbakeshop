@@ -31,28 +31,28 @@ function loadCart(){
         let save = item.save;
 
         let productDiv = document.createElement("div");
-        productDiv.id = `product_${i}`;
+        productDiv.id = `product_'${key}'`;
 
         let imgDiv = `<div class="product_checkout_img_div">
-                        <img class="product_checkout_img" id="product_img_${i}" src="media/product.png">
+                        <img class="product_checkout_img" id="product_img_${key}" src="media/product.png">
                       </div>`;
-        let detailDiv = `<div class="product_checkout_detail_div" id="product_checkout_detail_div_${i}">
+        let detailDiv = `<div class="product_checkout_detail_div" id="product_checkout_detail_div_${key}">
                            <h2>${name}</h2>
                            <div class="edits">
-                            <select class="glazeSelected" id="glazeSelected_${i}" name="glaze" onchange="changeGlaze(${i})">
+                            <select class="glazeSelected" id="glazeSelected_${key}" name="glaze" onchange="changeGlaze('${key}')">
                                 <option value="None">None</option>
                                 <option value="Sugar Milk">Sugar Milk</option>
                                 <option value="Vanilla Milk">Vanilla Milk</option>
                                 <option value="Double Chocolate">Double Chocolate</option>
                             </select>
-                            <select class="qtSelected" id="qtSelected_${i}" name="qt" onchange="changeQt(${i})">
+                            <select class="qtSelected" id="qtSelected_${key}" name="qt" onchange="changeQt('${key}')">
                                 <option value="1">1</option>
                                 <option value="3">3</option>
                                 <option value="6">6</option>
                                 <option value="12">12</option>
                             </select>
                             <div class="trash">
-                              <img class="delete_btns" id="delete_btn_${i}" src="media/trash.svg" onclick="deleteItem(${i})">
+                              <img class="delete_btns" id="delete_btn_${key}" src="media/trash.svg" onclick="deleteItem('${key}')">
                             </div>
                            </div>
                          </div>`;
@@ -70,8 +70,7 @@ function loadCart(){
     }
 }
 
-function changeGlaze(i){
-    const key = sessionStorage.key(i);
+function changeGlaze(key){
     let item = JSON.parse(sessionStorage.getItem(key));
 
     let name = item.product;
@@ -82,24 +81,23 @@ function changeGlaze(i){
 
     let new_item = {
         "product": name, 
-        "glaze": document.getElementById(`glazeSelected_${i}`).value, 
+        "glaze": document.getElementById(`glazeSelected_${key}`).value, 
         "qt": qt, 
         "price": price,
         "save": save
     };
 
     sessionStorage.removeItem(key);
-    sessionStorage.setItem(i, JSON.stringify(new_item));
+    sessionStorage.setItem(key, JSON.stringify(new_item));
     loadCart();
 }
 
-function changeQt(i){
-    const key = sessionStorage.key(i);
+function changeQt(key){
     let item = JSON.parse(sessionStorage.getItem(key));
 
     let name = item.product;
     let glaze = item.glaze;
-    let qt = document.getElementById(`qtSelected_${i}`).value;
+    let qt = document.getElementById(`qtSelected_${key}`).value;
     let price = item.price;
     let save = item.save;
 
@@ -127,13 +125,12 @@ function changeQt(i){
     };
 
     sessionStorage.removeItem(key);
-    sessionStorage.setItem(i, JSON.stringify(new_item));
+    sessionStorage.setItem(key, JSON.stringify(new_item));
     loadCart();
 
 }
 
-function deleteItem(i){
-    const key = sessionStorage.key(i);
+function deleteItem(key){
     sessionStorage.removeItem(key);
     loadCartHeader();
     loadCart();
@@ -197,7 +194,7 @@ function addToCart(){
     let item = {"product": product, "glaze": glaze.innerText, 
                 "qt": qt.innerText, "price": price.value,
                 "save": save.value};
-    let key = Date()
+    let key = "cart-items" + Date()
     sessionStorage.setItem(key, JSON.stringify(item));
 
     glaze.className = "glaze";
