@@ -6,4 +6,4 @@ This repository is used for Programming User Interface class F21.
 
 # [HW6A Link](https://evelynli06.github.io/HW6A/index)
 
-HW6B Link: TBA
+# [HW6B Link](https://evelynli06.github.io/HW6B/index)
