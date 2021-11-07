@@ -1,22 +1,13 @@
-// glaze: 0-None; 1-Sugar Milk; 2-Vanilla Milk; 3-Double Chocolate
-
-var items = []
-
-function arrayRemove(arr, value) { 
-    
-    return arr.filter(function(ele){ 
-        return ele != value; 
-    });
-}
-
 function loadCartHeader(){
     let cartItem = document.getElementById("cartItem");
-    cartItem.innerText = "0 items".replace(0, sessionStorage.length);
+    cartItem.innerText = `${sessionStorage.length} items`;
 }
 
 function loadCart(){
-    console.log(items);
     let contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
+    // delete all existing products and reload according to sessionStorage
+
     if(sessionStorage.length === 0){
         let emptyDiv = document.createElement("div");
         let emptyText = document.createElement("h1");
@@ -40,56 +31,116 @@ function loadCart(){
         let save = item.save;
 
         let productDiv = document.createElement("div");
-        productDiv.id = "product_0".replace(0, i);
+        productDiv.id = `product_${i}`;
 
         let imgDiv = `<div class="product_checkout_img_div">
-                        <img class="product_checkout_img" id="product_img_0" src="product.png">
+                        <img class="product_checkout_img" id="product_img_${i}" src="media/product.png">
                       </div>`;
-        let detailDiv = `<div class="product_checkout_detail_div">
-                           <h2>PRODUCTNAME</h2>
+        let detailDiv = `<div class="product_checkout_detail_div" id="product_checkout_detail_div_${i}">
+                           <h2>${name}</h2>
                            <div class="edits">
-                            <select id="glazeSelected" name="glaze">
+                            <select class="glazeSelected" id="glazeSelected_${i}" name="glaze" onchange="changeGlaze(${i})">
                                 <option value="None">None</option>
                                 <option value="Sugar Milk">Sugar Milk</option>
                                 <option value="Vanilla Milk">Vanilla Milk</option>
                                 <option value="Double Chocolate">Double Chocolate</option>
                             </select>
-                            <select id="qtSelected" name="qt">
+                            <select class="qtSelected" id="qtSelected_${i}" name="qt" onchange="changeQt(${i})">
                                 <option value="1">1</option>
                                 <option value="3">3</option>
                                 <option value="6">6</option>
                                 <option value="12">12</option>
                             </select>
-                             <span>delete</span>
+                            <div class="trash">
+                              <img class="delete_btns" id="delete_btn_${i}" src="media/trash.svg" onclick="deleteItem(${i})">
+                            </div>
                            </div>
                          </div>`;
-        detailDiv = detailDiv.replace("PRODUCTNAME", name);
         detailDiv = detailDiv.replace(`value="`+glaze+`"`, `value="`+glaze+`"` + " selected");
         detailDiv = detailDiv.replace(`value="`+qt+`"`, `value="`+qt+`"` + " selected");
         
         let priceDiv = `<div class="product_checkout_price">
-                          <h2>$ PRICE</h2>
-                          <span>(Saved: $ SAVE)</span>
+                          <h2>$ ${price}</h2>
+                          <span>(Saved: $ ${save})</span>
                         </div>`;
-        priceDiv = priceDiv.replace("PRICE", price);
-        priceDiv = priceDiv.replace("SAVE", save);
 
         productDiv.innerHTML = imgDiv + detailDiv + priceDiv;
         contentDiv.appendChild(productDiv);
 
     }
-
-    //checkout button
 }
 
-function deleteItem(){
-    // get the parent or grand parent's innerHTML
-    // use arrayRemove to delete that HTML from the items array
+function changeGlaze(i){
+    const key = sessionStorage.key(i);
+    let item = JSON.parse(sessionStorage.getItem(key));
+
+    let name = item.product;
+    // let glaze = item.glaze;
+    let qt = item.qt;
+    let price = item.price;
+    let save = item.save;
+
+    let new_item = {
+        "product": name, 
+        "glaze": document.getElementById(`glazeSelected_${i}`).value, 
+        "qt": qt, 
+        "price": price,
+        "save": save
+    };
+
+    sessionStorage.removeItem(key);
+    sessionStorage.setItem(i, JSON.stringify(new_item));
+    loadCart();
+}
+
+function changeQt(i){
+    const key = sessionStorage.key(i);
+    let item = JSON.parse(sessionStorage.getItem(key));
+
+    let name = item.product;
+    let glaze = item.glaze;
+    let qt = document.getElementById(`qtSelected_${i}`).value;
+    let price = item.price;
+    let save = item.save;
+
+    price = 2.75;
+    save = 0;
+    if(qt == 3){
+        price = 7;
+        save = 3*2.75-7;
+    }
+    if(qt == 6){
+        price = 12;
+        save = 6*2.75-7;
+    }
+    if(qt == 12){
+        price = 23;
+        save = 12*2.75-7;
+    }
+
+    let new_item = {
+        "product": name, 
+        "glaze": glaze, 
+        "qt": qt,  
+        "price": price,
+        "save": save
+    };
+
+    sessionStorage.removeItem(key);
+    sessionStorage.setItem(i, JSON.stringify(new_item));
+    loadCart();
+
+}
+
+function deleteItem(i){
+    const key = sessionStorage.key(i);
+    sessionStorage.removeItem(key);
+    loadCartHeader();
+    loadCart();
 
 }
 
 function buttonChosen(x, buttonType){
-    // change the style
     if(buttonType === 'glaze'){
         var glazeChosenLast = document.getElementsByClassName("glazeChosen");
         for (var i=0; i<glazeChosenLast.length; i++) {
@@ -155,5 +206,4 @@ function addToCart(){
     qt.className = "qt";
     price.innerText = "$ 2.75";
     loadCartHeader();
-    // change the style back
 }

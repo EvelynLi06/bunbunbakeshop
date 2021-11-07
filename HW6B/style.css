@@ -292,8 +292,22 @@ p#detail{
     padding-bottom: 40px;
     padding-left: 20px;
     text-align: left;
+    width:fit-content;
+    /* display:flex; */
 }
 
 .product_checkout_price{
     padding-bottom: 40px;
+}
+
+.edits{
+    height: 35px;
+    width:fit-content;
+    display:flex;
+    gap: 20px;
+}
+
+.delete_btns{
+    height: 35px;
+    width: 35px;
 }
