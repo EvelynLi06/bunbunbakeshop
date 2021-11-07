@@ -135,12 +135,6 @@ function changeQt(i){
 function deleteItem(i){
     const key = sessionStorage.key(i);
     sessionStorage.removeItem(key);
-    for (var i=0; i < sessionStorage.length; i++) {
-        const key = sessionStorage.key(i);
-        let item = sessionStorage.getItem(key);
-        sessionStorage.removeItem(key);
-        sessionStorage.setItem(i, item);
-    }
     loadCartHeader();
     loadCart();
 
@@ -203,8 +197,7 @@ function addToCart(){
     let item = {"product": product, "glaze": glaze.innerText, 
                 "qt": qt.innerText, "price": price.value,
                 "save": save.value};
-    let key = sessionStorage.length;
-    key ++;
+    let key = Date()
     sessionStorage.setItem(key, JSON.stringify(item));
 
     glaze.className = "glaze";
