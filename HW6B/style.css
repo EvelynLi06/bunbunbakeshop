@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
 body{
     position: relative;
     width: 100%;
@@ -5,13 +6,20 @@ body{
     overflow-y: scroll;
     overflow-x: hidden;
 
-    font-family: Poppins;
+    font-family: "Poppins";
     background: #FFFFFF;
     color: #232D36;
 }
 
 p{
     font-size: 18px;
+}
+
+a{
+    font-family: "Poppins";
+    font-weight: 400;
+    color:black;
+    text-decoration: none;
 }
 
 /* HEADER STYLE - start */
@@ -55,6 +63,11 @@ p{
 #nav{
     width: 860px;
     text-align:center;
+}
+
+.pagetitle:hover{
+    font-weight: 600;
+    transition: .3s;
 }
 
 #cart{
