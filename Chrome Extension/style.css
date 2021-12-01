@@ -110,6 +110,49 @@ body{
     height: auto;
 }
 
+.city-weather-svg{
+    width: 4vw;
+    height: auto;
+}
+
+.city-weather{
+    display:flex;
+    margin-bottom:0.2vw;
+    align-items: center;
+    justify-content: center;
+    padding:0.5vw 0;
+    width: 27vw;
+    background:rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    transition-duration:300ms;
+    transition-timing-function: ease-in;
+
+}
+
+.tool-content{
+    transition-duration:300ms;
+    transition-timing-function: ease-in;
+}
+
+.city-weather-temp{
+    font-size: 1.8vw;;
+}
+
+.weather-city-name{
+    width:12vw;
+    margin-left: 1vw;
+    font-size:1.5vw;
+    font-weight: 500;
+}
+
+.curr-weather{
+    width:10vw;
+}
+
+.weather-delete-icon{
+    margin-left: 1vw;
+}
+
 .todo, #todo-decor-bar{
     background:#FFEAC6;
 }

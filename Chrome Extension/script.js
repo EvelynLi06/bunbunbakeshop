@@ -27,7 +27,6 @@ function addOnClicks(){
 }
 
 function loadBg(){
-    
     const topicID = "6sMVjTLSkeQ"; 
     const unsplashApiCall = `https://api.unsplash.com/photos/random/?client_id=${unsplashApiKey}&topics=${topicID}&orientation=landscape`;
 
@@ -39,16 +38,15 @@ function loadBg(){
             document.body.style.background = `linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('${jsonData.urls.regular}') no-repeat center center fixed`;
             document.body.style.backgroundSize = `cover`;
             document.getElementById("author").innerHTML = jsonData.user.name;
-            document.getElementById("author").href = jsonData.user.links.html;
+            document.getElementById("author").href = jsonData.user.links.html + "?utm_source=Productivity&utm_medium=referral";
         })
         .catch((error) => {
             let defaultbg = `script.js:40 https://images.unsplash.com/photo-1552598715-7eeb9232a2ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNzU2MDF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MzgzNDExODM&ixlib=rb-1.2.1&q=80&w=1080`;
             document.body.style.background = `linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('${defaultbg}') no-repeat center center fixed`;
             document.body.style.backgroundSize = `cover`;
             document.getElementById("author").innerHTML = `Engjell Gjepali`;
-            document.getElementById("author").href = `https://unsplash.com/@iamengjell?utm_source=Chrome_Extension_Project&utm_medium=referral`;
+            document.getElementById("author").href = `https://unsplash.com/@iamengjell?utm_source=Productivity&utm_medium=referral`;
         });
-
 }
 
 function loadLocal(){
@@ -60,7 +58,6 @@ function reportError(){
 }
 
 function getCity(position){
-    
     const { latitude, longitude } = position.coords;
     const cityApiCall = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${cityApiKey}`
     fetch(cityApiCall)
@@ -72,14 +69,16 @@ function getCity(position){
             const state = jsonData.results[0].components.state;
             const country = jsonData.results[0].components.country;
             document.getElementById("location").innerHTML = `${city}, ${state}, ${country}`;
-            getWeather(city);
+            getWeather(city)
+                .then(function(weather){
+                    displayWeather(weather);
+                });
         })
 }
 
-function getWeather(city){
-    
-    const weatherApiCall = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=imperial`
-    fetch(weatherApiCall)
+async function getWeather(city){
+    const weatherApiCall = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=imperial`;
+    let weather =  await fetch(weatherApiCall)
         .then(function(response){
             return response.json();
         })
@@ -89,26 +88,37 @@ function getWeather(city){
             const weatherID = jsonData.weather[0].id; // to match icons
             var icon = "";
             if(weatherID==800){         // 800 - clear
-                icon = `<img id="weather-svg" src="icons/weather/clear.svg">`
+                icon = `icons/weather/clear.svg`;
             }else if(weatherID>800){    // 80x - clouds
-                icon = `<img id="weather-svg" src="icons/weather/clouds.svg">`
+                icon = `icons/weather/clouds.svg`;
             }else if(weatherID>=700){   // 7xx - mist
-                icon = `<img id="weather-svg" src="icons/weather/mist.svg">`
+                icon = `icons/weather/mist.svg`;
             }else if(weatherID>=600){   // 6xx - snow
-                icon = `<img id="weather-svg" src="icons/weather/snow.svg">`
+                icon = `icons/weather/snow.svg`;
             }else if(weatherID>=500){   // 5xx - rain
-                icon = `<img id="weather-svg" src="icons/weather/rain.svg">`
+                icon = `icons/weather/rain.svg`;
             }else if(weatherID>=300){   // 3xx - drizzle
-                icon = `<img id="weather-svg" src="icons/weather/drizzle.svg">`
+                icon = `icons/weather/drizzle.svg`;
             }else if(weatherID>=200){   // 2xx - thunderstorm
-                icon = `<img id="weather-svg" src="icons/weather/thunderstorm.svg">`
+                icon = `icons/weather/thunderstorm.svg`;
             }else{
                 console.log("unmatched weather id: " + weatherID);
             }
-            document.getElementById("weather-icon").innerHTML=icon;
-            document.getElementById("weather-words").innerHTML=description;
-            document.getElementById("weather-temp").innerHTML=temp;
+            let weather = {'icon': icon, 'description': description, 'temp': temp};
+            return weather;
         })
+        .catch((error) => {
+            console.log("error reached")
+            let weather = {'error': "weather apicall encountered error"}
+            return weather
+        });
+    return weather
+}
+
+function displayWeather(weather){
+    document.getElementById("weather-icon").innerHTML=`<img id="weather-svg" src="${weather.icon}">`;
+    document.getElementById("weather-words").innerHTML=weather.description;
+    document.getElementById("weather-temp").innerHTML=weather.temp;
 }
 
 function updateTime(){
@@ -133,6 +143,7 @@ function toggleTool(tool){
     } else if(tool == "times"){
         loadTimes();
     } else if(tool == "close"){
+        document.getElementById("tool-content").innerHTML = "";
         showToolBtns();
         changeElementById("list-content", "none");
         changeElementById("weather-bar", "flex");
@@ -155,7 +166,6 @@ function loadTodo(){
     document.getElementById("todo-hide").classList.toggle("active");
     changeElementById("list-content", "flex");
     addEventListenerToAdd("todo");
-
     fetchTodos();
 }
 
@@ -225,7 +235,7 @@ function fetchTodos(){
             });
         }
     }catch(e){
-
+        // add no to do rn 
     }
 }
 
@@ -243,12 +253,12 @@ function expandLinks(id){
         var linkObj = currItemLinks[i];
         var newLink = `
             <div class="links" id="link-${i}">
-                <a href="${linkObj.link}">
+                <a href="${linkObj.link}" target="_blank">
                     <div class="link-arrow-btn">
                         <img class="tool-icon trash" src="icons/fi_chevrons-right.svg" alt="icon for deleting this to do task">
                     </div>
                 </a>
-                <a class="link-name" href="${linkObj.link}">
+                <a class="link-name" href="${linkObj.link}" target="_blank">
                     ${linkObj.name}
                 </a>
                 <div class="link-delete-btn" id="trash-link-${index}-${i}">
@@ -357,7 +367,20 @@ function trashTodo(id){
     var itemsArr = JSON.parse(itemsStorage);
     itemsArr.splice(index, 1);
     saveItems(itemsArr, "todo-items");
-    fetchTodos();
+
+    var element = document.getElementById("todo-item-"+index);
+    element.parentNode.removeChild(element);
+}
+
+function trashWeather(id){
+    var index = id.split("-")[2];
+    var itemsStorage = localStorage.getItem('weather-items');
+    var itemsArr = JSON.parse(itemsStorage);
+    itemsArr.splice(index, 1);
+    saveItems(itemsArr, "weather-items");
+
+    var element = document.getElementById("weather-" + index);
+    element.parentNode.removeChild(element);
 }
 
 function checkTodo(id){
@@ -400,6 +423,7 @@ function loadWeather(){
     document.getElementById("weather-hide").classList.toggle("active");
     changeElementById("list-content", "flex");
     addEventListenerToAdd("weather");
+    fetchWeathers();
 }
 
 function loadTimes(){
@@ -433,10 +457,10 @@ function addEventListenerToAdd(tool){
     // add event listener to the plus button for 'click' to show input field
     // animation for the input field
     const input = document.getElementById("add-input");
-    input.addEventListener("keyup", function(event) {
+    input.replaceWith(input.cloneNode(true));
+    document.getElementById("add-input").addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
             add(tool);
-            // console.log('key enter pressed')
         }
     });
 }
@@ -474,25 +498,100 @@ function saveItems(obj, itemname){
 }
 
 function addWeather(){
-    var city = document.getElementById("add-input").value;
-    document.getElementById("add-input").value = "";
-
+    var city = sanitize(document.getElementById("add-input").value);
     var itemsStorage = localStorage.getItem('weather-items');
     var itemsArr = JSON.parse(itemsStorage);
-    itemsArr.push({"city":city});
-    saveItems(itemsArr);
-    loadWeather();
+    var cities = new Set();
+    for (var i = 0; i < itemsArr.length; i++) {
+        cities.add(itemsArr[i].city);
+    }
+    
+    if(city != "" && !cities.has(city)){
+        getWeather(city)
+        .then(function(weather){
+            if(weather.error == null){
+                document.getElementById("add-input").value = "";
+                var itemsStorage = localStorage.getItem('weather-items');
+                var itemsArr = JSON.parse(itemsStorage);
+                if(itemsArr == null){
+                    itemsArr = [];
+                }
+                itemsArr.push({"city": city});
+                saveItems(itemsArr, "weather-items");
+                fetchWeathers();
+            }
+            else{
+                // show error about invalid city
+            }
+        });
+
+    }
+}
+
+async function fetchWeathers(){
+    const content = document.getElementById("tool-content");
+    content.innerHTML = ``;
+    try{
+        var itemsStorage = localStorage.getItem('weather-items');
+        var itemsArr = JSON.parse(itemsStorage);
+
+        for (var i = 0; i < itemsArr.length; i++) {
+            var newCity = itemsArr[i].city;
+
+            await getWeather(newCity)
+                .then(function(weather){
+                    var newItemHTML = ` 
+                        <div class="city-weather" id="weather-${i}">
+                            <div class="weather-city-name">${newCity}</div>
+
+                            <div class="curr-weather" id="curr-weather-${newCity}">
+                                <div class="city-weather-icon" id="weather-icon-${i}">
+                                    <img class="city-weather-svg" src="${weather.icon}">
+                                </div>
+
+                                <div class="weather-desp">
+                                    <div class="city-weather-temp" id="weather-temp-${i}">${weather.temp}</div>
+                                    <div class="city-weather-words" id="weather-words-${i}">${weather.description}</div>
+                                </div>
+                            </div>
+
+                            <div class="weather-delete-icon" id="weather-trash-${i}">
+                                <img class="tool-icon trash" src="icons/fi_trash.svg" alt="icon for deleting this weather">
+                            </div>
+                        </div>
+                    `;
+                    content.innerHTML += newItemHTML;
+                });
+        }
+
+        for (var j = 0; j < itemsArr.length; j++) {
+            document.getElementById(`weather-trash-${j}`).addEventListener('click',function(){
+                trashWeather(this.id);
+            });
+        }
+    }catch(e){
+        // add no to do rn 
+    }
+}
+
+function fetchTimes(){
+
 }
 
 function addTime(){
     var tz = document.getElementById("add-input").value;
-    document.getElementById("add-input").value = "";
-
-    var itemsStorage = localStorage.getItem('time-items');
-    var itemsArr = JSON.parse(itemsStorage);
-    itemsArr.push({"timezone":tz});
-    saveItems(itemsArr);
-    loadTimes();
+    if(tz != ""){
+        // check valid timezone
+        document.getElementById("add-input").value = "";
+        var itemsStorage = localStorage.getItem('time-items');
+        var itemsArr = JSON.parse(itemsStorage);
+        if(itemsArr == null){
+            itemsArr = [];
+        }
+        itemsArr.push({"timezone": sanitize(tz)});
+        saveItems(itemsArr, "time-items");
+        fetchTimes();
+    }
 }
 
 function sanitize(s) {
