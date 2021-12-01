@@ -1,7 +1,3 @@
-const unsplashApiKey = 'llYQB34v9t3w3_-Kyw7QPBZj5So7EWK_srEWcFLFqMc';
-const cityApiKey = `d1f42a8dd39343a7a96d84b8ef9ce43b`;
-const weatherApiKey = `140fd973686efad3a17e1207a6761a77`;
-
 function loadPage(){
     loadLocal();
     loadBg();
@@ -50,7 +46,7 @@ function loadBg(){
             document.body.style.background = `linear-gradient(0deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('${defaultbg}') no-repeat center center fixed`;
             document.body.style.backgroundSize = `cover`;
             document.getElementById("author").innerHTML = `Engjell Gjepali`;
-            document.getElementById("author").href = `https://unsplash.com/@iamengjell`;
+            document.getElementById("author").href = `https://unsplash.com/@iamengjell?utm_source=Chrome_Extension_Project&utm_medium=referral`;
         });
 
 }
