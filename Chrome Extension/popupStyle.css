@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,500&display=swap');
+
+html{    
+    font-family: "Poppins", sans-serif;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar{
+    width:0px;
+    height:0px;
+    background:transparent;
+}
+
+body{
+    width: 325px;
+    margin: 15px;
+}
+
+.decor-bar{
+    height: 50px;
+    width: 15px;
+    border-radius: 20px;
+    background:#FFEAC6;
+}
+
+.todo-header{
+    display: flex;
+    align-items:center;
+}
+
+.title{
+    font-size: 32px;
+    font-weight: 500;
+    padding-left: 10px;
+}
+
+.todo-list{
+    margin-top: 15px;
+    overflow-y: scroll;
+    max-height: 300px;
+}
+
+.tool-item{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    max-width: 290px;
+    align-items:flex-start;
+}
+
+.todo-main{
+    display: flex;
+    justify-content:center;
+    align-items:flex-start;
+}
+
+.todo-desp{
+    display: block;
+    width: 220px;
+    font-size: 20px;
+    font-weight: 400;
+    max-height: 150px;
+    overflow:scroll;
+}
+
+.link-region{
+    display: flex;
+    flex-direction:column;
+    margin-left:25px;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in-out;
+}
+
+.add{
+    margin: 10px 0 0 0;
+    width: 290px;
+    display:flex;
+    align-items:center;
+    width:25vw;
+    justify-content:space-between;
+}
+
+.links{
+    display:flex;
+    width: 250px;
+    margin: 5px 0 5px 0;
+    font-size: 16px;
+    justify-content:flex-start;
+    align-items:center;
+}
+
+.link-save-btn{
+    display:flex;
+}
+
+.save{
+    display:flex;
+}
+
+.desp{
+    padding-left:10px;
+    display:flex;
+    flex-direction:column;
+}
+
+.saveLink{
+    font-weight:700;
+    font-size: 16px;
+}
+
+.link-arrow-btn{
+    display:flex;
+}
+
+a{
+    font-weight: 500;
+    font-style: italic;
+    color:black;
+}
+
+.link-name{
+    width: 200px;   
+}

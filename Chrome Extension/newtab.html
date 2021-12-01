@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <script src="loadbg.js"></script> -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Chrome Extension</title>
+    <link rel='stylesheet' href='style.css'>
+    <script src="lib/moment/moment.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="main-content">
+            <div class="curr-weather">
+                <div class="weather-icon" id="weather-icon"></div>
+                <div class="weather-desp">
+                    <div class="weather-temp" id="weather-temp"></div>
+                    <div class="weather-words" id="weather-words"></div>
+                </div>
+            </div>
+            <div class="curr-time">
+                <div class="time" id="time"></div>
+                <div class="ampm" id="ampm"></div>
+            </div>
+            <div class="curr-local" id="location">
+            </div>
+            <div class="greeting">
+                <div class="daytimegreet" id="daytimegreet"></div>
+                <!-- <div class="user">Evelyn</div> -->
+            </div>
+        </div>
+
+        <div class="tools" id="tools">
+            
+            <div class="todo-bar bar" id="todo-bar">
+                <div class="todo tool" id="todo-btn">
+                    <img class="tool-icon" src="icons/fi_edit.svg" alt="icon for to do list tool button">
+                </div>
+                <div class="hide" id="todo-hide">
+                    <div class="decor-bar" id="todo-decor-bar"></div>
+                    <div class="title" id="todo-title">To Do List</div>
+                    <div class="cancel-btn" id="todo-cancel">
+                        <img class="tool-icon" src="icons/fi_delete.svg" alt="icon for cancel button">
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather-bar bar" id="weather-bar">
+                <div class="weather tool" id="weather-btn">
+                    <img class="tool-icon" src="icons/fi_sunrise.svg" alt="icon for world weather tool button">
+                </div>
+                <div class="hide" id="weather-hide">
+                    <div class="decor-bar" id="weather-decor-bar"></div>
+                    <div class="title" id="weather-title">Weather</div>
+                    <div class="cancel-btn" id="weather-cancel">
+                        <img class="tool-icon" src="icons/fi_delete.svg" alt="icon for cancel button">
+                    </div>
+                </div>
+            </div>
+
+            <div class="times-bar bar" id="times-bar">
+                <div class="times tool" id="times-btn">
+                    <img class="tool-icon" src="icons/u_clock-eight.svg"  alt="icon for world time tool button">
+                </div>
+                <div class="hide" id="times-hide">
+                    <div class="decor-bar" id="times-decor-bar"></div>
+                    <div class="title" id="times-title">World Time</div>
+                    <div class="cancel-btn"  id="times-cancel">
+                        <img class="tool-icon" src="icons/fi_delete.svg" alt="icon for cancel button">
+                    </div>
+                </div>
+            </div>
+
+            <div class="list" id="list-content">
+
+                <div class="add" id="add">
+                    <input id="add-input" type="text" name="input">
+                    <div id="add-btn">
+                        <img class="tool-icon" src="icons/fi_plus.svg" alt="icon for plus button">
+                    </div>
+                </div>
+
+                <div class="tool-content" id="tool-content">
+
+                </div>
+            </div>
+
+        </div> 
+    </div>
+
+    <div class="unsplash-credit">
+        Photo by <a class="authorname" id="author"></a> on <a href="https://unsplash.com/">Unsplash</a>
+    </div>
+
+    <script src="loadNewTab.js"></script>
+</body>
+</html>

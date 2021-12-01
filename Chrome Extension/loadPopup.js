@@ -1,0 +1,2 @@
+fetchTodos();
+addEventListenerToAdd("todo");

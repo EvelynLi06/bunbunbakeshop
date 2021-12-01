@@ -1,0 +1,19 @@
+{
+    "name": "Test",
+    "version": "0.01",
+    "description": "Testing",
+    "chrome_url_overrides":{
+      "newtab": "newtab.html"
+    },
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "geolocation",
+      "bookmarks",
+      "unlimitedStorage"
+    ],
+    "action": {
+      "default_popup": "popout.html"
+    },
+    "manifest_version": 3
+}
