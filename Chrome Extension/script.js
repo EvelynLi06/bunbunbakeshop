@@ -1,3 +1,4 @@
+
 function loadPage(){
     loadLocal();
     loadBg();
@@ -27,7 +28,7 @@ function addOnClicks(){
 }
 
 function loadBg(){
-    const unsplashApiKey = 'llYQB34v9t3w3_-Kyw7QPBZj5So7EWK_srEWcFLFqMc';
+    
     const topicID = "6sMVjTLSkeQ"; 
     const unsplashApiCall = `https://api.unsplash.com/photos/random/?client_id=${unsplashApiKey}&topics=${topicID}&orientation=landscape`;
 
@@ -60,7 +61,7 @@ function reportError(){
 }
 
 function getCity(position){
-    const cityApiKey = `d1f42a8dd39343a7a96d84b8ef9ce43b`;
+    
     const { latitude, longitude } = position.coords;
     const cityApiCall = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${cityApiKey}`
     fetch(cityApiCall)
@@ -77,7 +78,7 @@ function getCity(position){
 }
 
 function getWeather(city){
-    const weatherApiKey = `140fd973686efad3a17e1207a6761a77`;
+    
     const weatherApiCall = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=imperial`
     fetch(weatherApiCall)
         .then(function(response){
