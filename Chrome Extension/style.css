@@ -96,7 +96,7 @@ body{
 }
 
 .tool-icon{
-    width: 2.2vw;
+    width: 2vw;
     height: auto;
 }
 
@@ -122,7 +122,7 @@ body{
     justify-content: center;
     padding:0.5vw 0;
     width: 27vw;
-    background:rgba(255, 255, 255, 0.6);
+    background:rgba(255, 255, 255, 0.7);
     border-radius: 15px;
     transition-duration:300ms;
     transition-timing-function: ease-in;
@@ -145,7 +145,7 @@ body{
     font-weight: 500;
 }
 
-.curr-weather{
+.city{
     width:10vw;
 }
 
@@ -221,6 +221,7 @@ body{
     width: 18vw;
     font-size: 1.3vw;
     font-weight: 400;
+    line-height: 2vw;
     max-height: 5vw;
     overflow:scroll;
 }
@@ -234,7 +235,7 @@ body{
 .tool-item, .add{
     margin: 0.1vw 0;
     padding: 0.6vw;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 15px;
     display:flex;
     justify-content:center;
@@ -287,4 +288,52 @@ a{
     font-weight: 500;
     font-style: italic;
     color:black;
+}
+
+.timezone-time{
+    display:flex;
+    align-items: baseline;
+}
+
+.timezone-time-date{
+    display:flex;
+    flex-direction:column;
+    align-items: flex-start;
+    padding: 0 1.5vw;
+}
+
+.timezone{
+    display:flex;
+    margin-bottom:0.2vw;
+    align-items: center;
+    justify-content: center;
+    padding: 1vw 0;
+    width: 27vw;
+    background:rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    transition-duration:300ms;
+    transition-timing-function: ease-in;
+}
+    
+.timezone-name{
+    width:13vw;
+    font-size:1.2vw;
+    font-weight: 500;
+}
+
+.timezone-time-hm{
+    font-size:1.5vw;
+    font-weight: 700;
+}
+
+.timezone-time-a{
+    font-size:1vw;
+    font-weight: 500; 
+}
+
+.dummy{
+    padding: 1vw 1vw;
+    font-size: 1.5vw;
+    font-weight: 400;
+    width: 25vw;
 }

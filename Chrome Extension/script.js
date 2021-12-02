@@ -210,7 +210,6 @@ function fetchTodos(){
                         <div class="expand-icon" id="expand-${i}">
                             <img class="tool-icon expand" id="expand-${i}-icon" src="icons/fi_chevron-right.svg" alt="icon for expanding to do task and showing related links">
                         </div>
-                        
                     </div>  
 
                     <div class="link-region" id="todo-item-${i}-links">
@@ -228,14 +227,20 @@ function fetchTodos(){
                 checkTodo(this.id) 
             });
             document.getElementById(`trash-${i}`).addEventListener('click',function(){
-                trashTodo(this.id) 
+                trashTodo(this.id.split("-")[1]) 
             });
             document.getElementById(`expand-${i}`).addEventListener('click',function(){
                 expandLinks(this.id) 
             });
         }
+        if(itemsArr.length == 0){
+            content.innerHTML = `
+            <div class="tool-item dummy" id="todo-item-notask">
+               No tasks are added to the to-do list at this moment, add some tasks!
+            </div>`;
+        }
     }catch(e){
-        // add no to do rn 
+        console.log("error encountered fetching todo")
     }
 }
 
@@ -280,7 +285,7 @@ function expandLinks(id){
     if(currItemLinks.length==0){
         var noLink = `
             <div class="links" id="no-link">
-                No link is associated with this task at this moment.
+                No links are associated with this task at this moment.
             </div>
         `;
         linksRegion.innerHTML += noLink;
@@ -361,26 +366,26 @@ function trashLink(id){
     expandLinks("expand-"+todoIndex);
 }
 
-function trashTodo(id){
-    var index = id.split("-")[1];
-    var itemsStorage = localStorage.getItem('todo-items');
-    var itemsArr = JSON.parse(itemsStorage);
-    itemsArr.splice(index, 1);
-    saveItems(itemsArr, "todo-items");
-
-    var element = document.getElementById("todo-item-"+index);
-    element.parentNode.removeChild(element);
+function trashTodo(index){
+    trash(index, 'todo-items');
+    fetchTodos();
 }
 
-function trashWeather(id){
-    var index = id.split("-")[2];
-    var itemsStorage = localStorage.getItem('weather-items');
+function trashWeather(index){
+    trash(index, 'weather-items');
+    fetchWeathers();
+}
+
+function trashTime(index){
+    trash(index, 'time-items');
+    fetchTimes();
+}
+
+function trash(index, item){
+    var itemsStorage = localStorage.getItem(item);
     var itemsArr = JSON.parse(itemsStorage);
     itemsArr.splice(index, 1);
-    saveItems(itemsArr, "weather-items");
-
-    var element = document.getElementById("weather-" + index);
-    element.parentNode.removeChild(element);
+    saveItems(itemsArr, item);
 }
 
 function checkTodo(id){
@@ -434,7 +439,7 @@ function loadTimes(){
     document.getElementById("times-hide").classList.toggle("active");
     changeElementById("list-content", "flex");
     addEventListenerToAdd("times");
-
+    fetchTimes();
 }
 
 function hideToolBtns(){
@@ -544,7 +549,7 @@ async function fetchWeathers(){
                         <div class="city-weather" id="weather-${i}">
                             <div class="weather-city-name">${newCity}</div>
 
-                            <div class="curr-weather" id="curr-weather-${newCity}">
+                            <div class="curr-weather city" id="curr-weather-${newCity}">
                                 <div class="city-weather-icon" id="weather-icon-${i}">
                                     <img class="city-weather-svg" src="${weather.icon}">
                                 </div>
@@ -566,29 +571,84 @@ async function fetchWeathers(){
 
         for (var j = 0; j < itemsArr.length; j++) {
             document.getElementById(`weather-trash-${j}`).addEventListener('click',function(){
-                trashWeather(this.id);
+                trashWeather(this.id.split("-")[2]);
             });
         }
+
+        if(itemsArr.length == 0){
+            content.innerHTML = `
+                <div class="city-weather dummy" id="weather-dummy">
+                    No cities are added to the weather list at this moment, add some cities!
+                </div>
+            `;
+        }
+
     }catch(e){
-        // add no to do rn 
+        console.log("error encountered fetching weathers");
     }
 }
 
 function fetchTimes(){
+    const content = document.getElementById("tool-content");
+    content.innerHTML = ``;
+    let d = new Date();
+    try{
+        var itemsStorage = localStorage.getItem('time-items');
+        var itemsArr = JSON.parse(itemsStorage);
+
+        for (var i = 0; i < itemsArr.length; i++) {
+            var newTz = itemsArr[i].timezone;
+            var newItemHTML = ` 
+                <div class="timezone" id="timezone-${i}">
+                    <div class="timezone-name">${newTz}</div>
+
+                    <div class="timezone-time-date" id="curr-time-${newTz}">
+                        <div class="timezone-time">
+                            <div class="timezone-time-hm">${moment(d).tz(newTz).format('hh:mm')}</div>
+                            <div class="timezone-time-a">${moment(d).tz(newTz).format('A')}</div>
+                        </div>
+                        <div class="timezone-date">${moment(d).tz(newTz).format('LL')}</div>
+                    </div>
+
+                    <div class="time-delete-icon" id="time-trash-${i}">
+                        <img class="tool-icon trash" src="icons/fi_trash.svg" alt="icon for deleting timezone ${newTz}">
+                    </div>
+                </div>
+            `;
+            content.innerHTML += newItemHTML;
+        }
+
+        for (var j = 0; j < itemsArr.length; j++) {
+            document.getElementById(`time-trash-${j}`).addEventListener('click',function(){
+                trashTime(this.id.split("-")[2]);
+            });
+        }
+
+        if(itemsArr.length == 0){
+            content.innerHTML = `
+                <div class="timezone dummy" id="timezone-dummy">
+                    No timezones are added to the list at this moment, add some timezones!
+                </div>
+            `;
+        }
+
+    }catch(e){
+        console.log("error encountered fetching times");
+    }
 
 }
 
 function addTime(){
-    var tz = document.getElementById("add-input").value;
+    var tz = sanitize(document.getElementById("add-input").value);
     if(tz != ""){
-        // check valid timezone
+        // check valid timezone and non-repeat timezone
         document.getElementById("add-input").value = "";
         var itemsStorage = localStorage.getItem('time-items');
         var itemsArr = JSON.parse(itemsStorage);
         if(itemsArr == null){
             itemsArr = [];
         }
-        itemsArr.push({"timezone": sanitize(tz)});
+        itemsArr.push({"timezone": tz});
         saveItems(itemsArr, "time-items");
         fetchTimes();
     }
