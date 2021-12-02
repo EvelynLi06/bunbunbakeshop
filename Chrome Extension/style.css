@@ -246,8 +246,8 @@ body{
     width:25vw;
     justify-content:space-between;
     padding: 0.5vw 1vw;
-    margin: 1vw 0;
-
+    margin-bottom: 1vw;
+    /* margin: 1vw 0; */
 }
 
 .tool-item{
@@ -336,4 +336,12 @@ a{
     font-size: 1.5vw;
     font-weight: 400;
     width: 25vw;
+}
+
+.error{
+    color: red;
+    font-weight:400;
+    font-size:1.2vw;
+    width: 25vw;
+    padding: 1vw 1vw;
 }

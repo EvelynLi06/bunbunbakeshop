@@ -118,7 +118,7 @@ async function getWeather(city){
 function displayWeather(weather){
     document.getElementById("weather-icon").innerHTML=`<img id="weather-svg" src="${weather.icon}">`;
     document.getElementById("weather-words").innerHTML=weather.description;
-    document.getElementById("weather-temp").innerHTML=weather.temp;
+    document.getElementById("weather-temp").innerHTML=weather.temp.toFixed(0);
 }
 
 function updateTime(){
@@ -135,6 +135,7 @@ function updateTime(){
 }
 
 function toggleTool(tool){
+    document.getElementById("error").innerHTML = "";
     document.getElementById("tools").classList.toggle("active");
     if(tool == "todo"){
         loadTodo();
@@ -312,7 +313,7 @@ function expandLinks(id){
 
         document.getElementById(`link-title-${index}`).addEventListener("keyup",function(event){
             if (event.key === "Enter") {
-                console.log(id);
+                // console.log(id);
                 saveLink(id);
             }
         });
@@ -465,6 +466,7 @@ function addEventListenerToAdd(tool){
     input.replaceWith(input.cloneNode(true));
     document.getElementById("add-input").addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
+            document.getElementById("error").innerHTML = "";
             add(tool);
         }
     });
@@ -508,10 +510,10 @@ function addWeather(){
     var itemsArr = JSON.parse(itemsStorage);
     var cities = new Set();
     for (var i = 0; i < itemsArr.length; i++) {
-        cities.add(itemsArr[i].city);
+        cities.add(itemsArr[i].city.toLowerCase());
     }
     
-    if(city != "" && !cities.has(city)){
+    if(city != "" && !cities.has(city.toLowerCase())){
         getWeather(city)
         .then(function(weather){
             if(weather.error == null){
@@ -526,10 +528,12 @@ function addWeather(){
                 fetchWeathers();
             }
             else{
-                // show error about invalid city
+                document.getElementById("error").innerHTML = `${city} is invalid. Please try again with a valid city :)`;
             }
         });
-
+    }
+    if(cities.has(city.toLowerCase())){
+        document.getElementById("error").innerHTML = `${city} already exists in the list. Please try again with a new city :)`;
     }
 }
 
@@ -555,7 +559,7 @@ async function fetchWeathers(){
                                 </div>
 
                                 <div class="weather-desp">
-                                    <div class="city-weather-temp" id="weather-temp-${i}">${weather.temp}</div>
+                                    <div class="city-weather-temp" id="weather-temp-${i}">${weather.temp.toFixed(0)}</div>
                                     <div class="city-weather-words" id="weather-words-${i}">${weather.description}</div>
                                 </div>
                             </div>
@@ -640,18 +644,50 @@ function fetchTimes(){
 
 function addTime(){
     var tz = sanitize(document.getElementById("add-input").value);
-    if(tz != ""){
-        // check valid timezone and non-repeat timezone
-        document.getElementById("add-input").value = "";
+    if(moment.tz.zone(tz)!=null){
         var itemsStorage = localStorage.getItem('time-items');
         var itemsArr = JSON.parse(itemsStorage);
-        if(itemsArr == null){
-            itemsArr = [];
+        var timezones = new Set();
+        for (var i = 0; i < itemsArr.length; i++) {
+            timezones.add(itemsArr[i].timezone.toLowerCase());
         }
-        itemsArr.push({"timezone": tz});
-        saveItems(itemsArr, "time-items");
-        fetchTimes();
+
+        if(tz != "" && !timezones.has(tz.toLowerCase())){
+            // check non-repeat timezone
+            document.getElementById("add-input").value = "";
+            var itemsStorage = localStorage.getItem('time-items');
+            var itemsArr = JSON.parse(itemsStorage);
+            if(itemsArr == null){
+                itemsArr = [];
+            }
+            itemsArr.push({"timezone": tz});
+            saveItems(itemsArr, "time-items");
+            fetchTimes();
+        } 
+
+        if(timezones.has(tz.toLowerCase())){
+            document.getElementById("error").innerHTML = `
+            <div> ${tz} already exists in the list. Please try again with a new timezone :) </div>
+            <br>
+            <div> For a complete list of valid timezone, please reference 
+                <a target="_blank" href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List">
+                Wikipedia TZ database name
+                </a>
+            </div>
+            `;
+        }
+    }else{
+        document.getElementById("error").innerHTML = `
+            <div> Timezone ${tz} is invalid. Please try again with a valid timezone :) </div>
+            <br>
+            <div> For a complete list of valid timezone, please reference 
+                <a target="_blank" href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List">
+                Wikipedia TZ database name
+                </a>
+            </div>
+        `;
     }
+
 }
 
 function sanitize(s) {

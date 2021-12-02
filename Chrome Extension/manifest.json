@@ -1,7 +1,7 @@
 {
-    "name": "Test",
+    "name": "Productivity",
     "version": "0.01",
-    "description": "Testing",
+    "description": "Provides a dashboard for the new tab page, featuring tools such as todo list, weather, and time. Able to associate current tab link to any todo task for future easy access.",
     "chrome_url_overrides":{
       "newtab": "newtab.html"
     },
