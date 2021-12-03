@@ -34,8 +34,8 @@ body{
 }
 
 .list{
-    flex-direction:column;
-    overflow-y:scroll;
+    flex-direction: column;
+    overflow-y: scroll;
 }
 
 .hide.active{
@@ -130,6 +130,9 @@ body{
 }
 
 .tool-content{
+    display:flex;
+    flex-direction: column;
+    overflow-y: scroll;
     transition-duration:300ms;
     transition-timing-function: ease-in;
 }
